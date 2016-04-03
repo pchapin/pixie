@@ -3,7 +3,7 @@
 #
 
 CXX=g++
-CXXFLAGS=-std=c++11 -c -O -I../Spica -I../Scr
+CXXFLAGS=-std=c++11 -c -O -I../Spica/Cpp -I../Scr
 LINK=g++
 LINKFLAGS=-lncurses -lpthread
 SOURCES=main.cpp               \
@@ -11,7 +11,7 @@ SOURCES=main.cpp               \
 	TaskWindow.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=pixie
-LIBSPICA=../Spica/libSpicaCpp.a
+LIBSPICA=../Spica/Cpp/libSpicaCpp.a
 LIBSCR=../Scr/libScr.a
 
 %.o:	%.cpp
@@ -28,15 +28,15 @@ $(EXECUTABLE):	$(OBJECTS)
 
 
 main.o:	main.cpp ../Scr/debug.hpp ../Scr/scr.hpp ../Scr/TextWindow.hpp ../Scr/Window.hpp ../Scr/ImageBuffer.hpp \
-	../Scr/Manager.hpp PixieCommandWindow.hpp ../Scr/CommandWindow.hpp TaskWindow.hpp ../Spica/Date.hpp \
+	../Scr/Manager.hpp PixieCommandWindow.hpp ../Scr/CommandWindow.hpp TaskWindow.hpp ../Spica/Cpp/Date.hpp \
 	
 
 PixieCommandWindow.o:	PixieCommandWindow.cpp ../Scr/debug.hpp ../Scr/scr.hpp ../Scr/TextWindow.hpp ../Scr/Window.hpp \
 	../Scr/ImageBuffer.hpp PixieCommandWindow.hpp ../Scr/CommandWindow.hpp ../Scr/Manager.hpp \
-	TaskWindow.hpp ../Spica/Date.hpp 
+	TaskWindow.hpp ../Spica/Cpp/Date.hpp 
 
 TaskWindow.o:	TaskWindow.cpp ../Scr/debug.hpp ../Scr/scr.hpp ../Scr/TextWindow.hpp ../Scr/Window.hpp \
-	../Scr/ImageBuffer.hpp TaskWindow.hpp ../Spica/Date.hpp 
+	../Scr/ImageBuffer.hpp TaskWindow.hpp ../Spica/Cpp/Date.hpp 
 
 
 # Additional Rules

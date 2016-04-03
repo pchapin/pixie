@@ -8,8 +8,9 @@ Code::Blocks and g++ (Linux).
 
 The doc folder contains Pixie documentation projects.
 
-Pixie makes use of a cross platform screen handling library named Scr. The Scr package should be
-checked out in a sibling folder of the Pixie folder.
+Pixie makes use of a cross platform screen handling library named Scr. The Scr repository should
+be checked out in a sibling folder of the Pixie folder. Pixie also makes use of a utility named
+Spica. The Spica repository should also be checked out in a sibling folder of the Pixie folder.
 
 Peter C. Chapin  
 PChapin@vtc.vsc.edu
