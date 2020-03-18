@@ -3,41 +3,27 @@
 #
 
 CXX=g++
-CXXFLAGS=-std=c++11 -c -O -I../Spica/Cpp -I../Scr
+CXXFLAGS=-std=c++11 -c -O -I../Spica/Cpp
 LINK=g++
-LINKFLAGS=-lncurses -lpthread
-SOURCES=main.cpp               \
-	PixieCommandWindow.cpp \
-	TaskWindow.cpp
+LINKFLAGS=
+SOURCES=main.cpp   \
+	Tasks.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=pixie
 LIBSPICA=../Spica/Cpp/libSpicaCpp.a
-LIBSCR=../Scr/libScr.a
 
 %.o:	%.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 $(EXECUTABLE):	$(OBJECTS)
-	$(CXX) $(OBJECTS) $(LIBSPICA) $(LIBSCR) $(LINKFLAGS) -o $@
-
+	$(CXX) $(OBJECTS) $(LIBSPICA) $(LINKFLAGS) -o $@
 
 # File Dependencies
 ###################
 
-# Module dependencies -- Produced with 'depend' on Sat Jul  6 17:26:23 2013
+main.o:		main.cpp Tasks.hpp ../Spica/Cpp/Date.hpp
 
-
-main.o:	main.cpp ../Scr/debug.hpp ../Scr/scr.hpp ../Scr/TextWindow.hpp ../Scr/Window.hpp ../Scr/ImageBuffer.hpp \
-	../Scr/Manager.hpp PixieCommandWindow.hpp ../Scr/CommandWindow.hpp TaskWindow.hpp ../Spica/Cpp/Date.hpp \
-	
-
-PixieCommandWindow.o:	PixieCommandWindow.cpp ../Scr/debug.hpp ../Scr/scr.hpp ../Scr/TextWindow.hpp ../Scr/Window.hpp \
-	../Scr/ImageBuffer.hpp PixieCommandWindow.hpp ../Scr/CommandWindow.hpp ../Scr/Manager.hpp \
-	TaskWindow.hpp ../Spica/Cpp/Date.hpp 
-
-TaskWindow.o:	TaskWindow.cpp ../Scr/debug.hpp ../Scr/scr.hpp ../Scr/TextWindow.hpp ../Scr/Window.hpp \
-	../Scr/ImageBuffer.hpp TaskWindow.hpp ../Spica/Cpp/Date.hpp 
-
+Tasks.o:	Tasks.cpp Tasks.hpp ../Spica/Cpp/Date.hpp 
 
 # Additional Rules
 ##################

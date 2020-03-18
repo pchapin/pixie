@@ -14,18 +14,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PixieCommandWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskWindow.cpp">
+    <ClCompile Include="Tasks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PixieCommandWindow.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskWindow.hpp">
+    <ClInclude Include="Tasks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

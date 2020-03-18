@@ -1,6 +1,6 @@
 /*! \file    main.cpp
     \brief   Entry point for the Pixie program.
-    \author  Peter C. Chapin <PChapin@vtc.vsc.edu>
+    \author  Peter Chapin <pchapin@vtc.edu>
 
 LICENSE
 
@@ -23,66 +23,157 @@ Please send comments or bug reports pertaining to this file to
      Computer Information Systems
      Vermont Technical College
      Williston, VT 05495
-     PChapin@vtc.vsc.edu
+     pchapin@vtc.edu
 */
 
 #include <cstdlib>
-#include <cstring>
 #include <iostream>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
-#include "debug.hpp"
-#include "Manager.hpp"
-#include "PixieCommandWindow.hpp"
-#include "TaskWindow.hpp"
+#include "Tasks.hpp"
 
 using namespace std;
 
-//! Class to manage run time debug initialization.
-/*!
- * This class allows one to activate run time debugging support in a selective region of the
- * program. Its constructor initializes debugging and its destructor automatically terminates
- * debugging. Thus this class provides RAI handling of the debugging system.
- */
-class ScrDebugging_Helper {
-private:
-    bool debugging_active;
+namespace {
 
-public:
-    //! Initialize the debugging system if debug_flag is true.
-    ScrDebugging_Helper( bool debug_flag ) : debugging_active( debug_flag )
-        { if( debugging_active ) scr::initialize_debugging( ); }
+    //! Splits the command line into separate words.
+    /*!
+     * This function does basic command line splitting based on the given delimiters.
+     */
+    static vector<string> split_string(
+        const string  &buffer,         // String to be split.
+        const char    *delimiters      // String of delimiter characters.
+    )
+    {
+        enum State { START, IN_WORD };
 
-    //! Terminate the debugging system if it was initialized by the constructor.
-   ~ScrDebugging_Helper()
-        { if( debugging_active ) scr::terminate_debugging( ); }
-};
+        State             current_state = START;
+        string::size_type buffer_offset;
+        vector<string>    strings;
+
+        buffer_offset = 0;
+        while( buffer_offset != buffer.size( ) ) {
+            char ch = buffer[buffer_offset];
+
+            switch( current_state ) {
+            case START:
+                if( strchr( delimiters, ch ) != 0 ) {
+                    current_state = START;
+                }
+                else {
+                    current_state = IN_WORD;
+                    strings.push_back( string( 1, ch ) );
+                }
+                break;
+
+            case IN_WORD:
+                if( strchr( delimiters, ch ) != 0 ) {
+                    current_state = START;
+                }
+                else {
+                    strings.back( ).append( 1, ch );
+                }
+                break;
+            }
+
+            buffer_offset++;
+        }
+        
+        return strings;
+     }
+
+
+    bool process_command( const string &command_line )
+    {
+        vector<string> command_parts;
+        vector<string>::size_type argument_count;
+
+        command_parts = split_string( command_line, " " );
+        argument_count = command_parts.size( );
+
+        if( argument_count == 0 ) return true;
+
+        if( command_parts[0] == "quit" ) {
+            return false;
+        }
+        else if( command_parts[0] == "add" ) {
+            if( argument_count == 3 ) {
+                add_minutes( atoi( command_parts[1].c_str( ) ), atoi( command_parts[2].c_str( ) ) );
+            }
+        }
+        else if( command_parts[0] == "create" ) {
+            // This is kind of hacked.
+            string::size_type index = command_line.find_first_of( ' ' );
+            if( index != string::npos ) {
+                create_task( command_line.substr( index + 1 ), 50 );
+            }
+        }
+        else if( command_parts[0] == "daily" ) {
+            if( argument_count == 3 ) {
+                change_daily( atoi( command_parts[1].c_str( ) ), atoi( command_parts[2].c_str( ) ) );
+            }
+        }
+        else if( command_parts[0] == "delete" ) {
+            if( argument_count == 2 ) {
+                delete_task( atoi( command_parts[1].c_str( ) ) );
+            }
+        }
+        else if( command_parts[0] == "priority" ) {
+            if( argument_count == 3 ) {
+                change_priority( atoi( command_parts[1].c_str( ) ), atoi( command_parts[2].c_str( ) ) );
+            }
+        }
+        else if( command_parts[0] == "rename" ) {
+            // This is kind of hacked.
+            string::size_type index = command_line.find_first_of( ' ' );
+            index = command_line.find_first_of( ' ', index + 1 );
+            if( index != string::npos ) {
+                rename( atoi( command_parts[1].c_str( ) ), command_line.substr( index + 1 ) );
+            }
+        }
+        else if( command_parts[0] == "save" ) {
+            save_tasks( );
+        }
+        else if( command_parts[0] == "start" ) {
+            if( argument_count == 2 ) {
+                start_task( atoi( command_parts[1].c_str( ) ) );
+            }
+        }
+        else if( command_parts[0] == "stop" ) {
+            stop_tasks( );
+        }
+        else if( command_parts[0] == "undo_daily" ) {
+            undo_daily( );
+        }
+        else if( command_parts[0] == "zero" ) {
+            zero_tasks( );
+        }
+
+        return true;
+    }
+}
 
 
 //! Pixie entry point.
 int main( int argc, char **argv )
 {
-    int rc = EXIT_SUCCESS;
-    bool debug_flag = false;  // Set to true to use the run time debugging system.
-
-    // Analyze command line.
-    if( argc > 1 ) {
-        if( strcmp( argv[1], "-d") == 0 ) debug_flag = true;
-    }
-
+    string command_line;
+    int    rc = EXIT_SUCCESS;
+ 
     try {
-        ScrDebugging_Helper scr_helper(debug_flag);
-        scr::Manager window_manager;
-        int max_width = scr::number_of_columns( ) - 2;
-        TaskWindow task_window( &window_manager, 2, 2, max_width, scr::number_of_rows( ) - 5 );
-        PixieCommandWindow command_window(
-            &window_manager, scr::number_of_rows( ) - 1, 2, max_width, 1, &task_window );
-        command_window.set_prompt( "> " );
-
-        window_manager.input_loop( );
+        initialize_tasks( );
+        while( 1 ) {
+            display_tasks( );
+            cout << "> " << flush;
+            getline( cin, command_line );
+            if( !process_command( command_line ) ) break;
+        }
+        cleanup_tasks( );
     }
     catch( exception &e ) {
-        cout << "Pixie: Unhandled exception reached main!\n"
+        cout << "Pixie: Unhandled standard exception reached main!\n"
              << "       (" << e.what( ) << ")\n";
         rc = EXIT_FAILURE;
     }

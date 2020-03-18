@@ -9,6 +9,7 @@
 # Visual Studio generated files.
 *.sdf
 *.suo
+*.user
 Debug
 Release
 
