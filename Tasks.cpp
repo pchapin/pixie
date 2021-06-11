@@ -219,7 +219,11 @@ void initialize_tasks( )
     today.set(cooked_time->tm_year + 1900, cooked_time->tm_mon + 1, cooked_time->tm_mday );
 
     // Read the task file.
-    task_file_name =  getenv( "HOME" );
+    char *pixie_folder = getenv( "PIXIE_HOME" );
+    if( pixie_folder == nullptr ) {
+        pixie_folder = getenv( "HOME" );
+    }
+    task_file_name =  pixie_folder;
     task_file_name += '/';
     task_file_name += ".pixie-tasks";
     read_tasks( );

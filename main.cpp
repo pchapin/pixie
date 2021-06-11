@@ -1,32 +1,33 @@
 /*! \file    main.cpp
-    \brief   Entry point for the Pixie program.
-    \author  Peter Chapin <pchapin@vtc.edu>
-
-LICENSE
-
-This program is free software; you can redistribute it and/or modify it under the terms of the
-GNU General Public License as published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program; if
-not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-02111-1307 USA
-
-Please send comments or bug reports pertaining to this file to
-
-     Pixie
-     c/o Peter C. Chapin
-     Computer Information Systems
-     Vermont Technical College
-     Williston, VT 05495
-     pchapin@vtc.edu
-*/
+ *    \brief   Entry point for the Pixie program.
+ *  \author  Peter Chapin <pchapin@vtc.edu>
+ *
+ * LICENSE
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+ * the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA
+ *
+ * Please send comments or bug reports pertaining to this file to
+ *
+ *   Pixie
+ *   c/o Peter C. Chapin
+ *   Computer Information Systems
+ *   Vermont Technical College
+ *   Williston, VT 05495
+ *   pchapin@vtc.edu
+ */
 
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -94,6 +95,22 @@ namespace {
         argument_count = command_parts.size( );
 
         if( argument_count == 0 ) return true;
+
+        if( command_parts[0] == "help" ) {
+            cout << "quit                    : Terminate Pixie, saving automatically\n"
+                 << "add task_no minutes     : Adds 'minutes' to task 'task_no'\n"
+                 << "create task_name        : Creates a task 'task_name'. The name can contain spaces\n"
+                 << "daily task_no minutes   : Sets task 'task_no' to have 'minutes' daily minutes\n"
+                 << "delete task_no          : Deletes task 'task_no'\n"
+                 << "priority task_no, pri   : Sets task 'task_no' to priority 'pri'\n"
+                 << "rename task_no new_name : Changes task 'task_no' to the name 'new_name'\n"
+                 << "save                    : Saves current state\n"
+                 << "start task_no           : Starts task 'task_no'\n"
+                 << "stop                    : Stops the currently running task\n"
+                 << "undo_daily              : Removes one day's worth of daily accumulation from all tasks \n"
+                 << "zero                    : Sets all times to zero \n";
+            return true;
+        }
 
         if( command_parts[0] == "quit" ) {
             return false;
