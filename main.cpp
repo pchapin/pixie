@@ -1,6 +1,6 @@
 /*! \file    main.cpp
- *    \brief   Entry point for the Pixie program.
- *  \author  Peter Chapin <pchapin@vtc.edu>
+ *  \brief   Entry point for the Pixie program.
+ *  \author  Peter Chapin <chapinp@acm.org>
  *
  * LICENSE
  *
@@ -15,15 +15,7 @@
  * You should have received a copy of the GNU General Public License along with this program; if
  * not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  * 02111-1307 USA
- *
- * Please send comments or bug reports pertaining to this file to
- *
- *   Pixie
- *   c/o Peter C. Chapin
- *   Computer Information Systems
- *   Vermont Technical College
- *   Williston, VT 05495
- *   pchapin@vtc.edu
+ * 
  */
 
 #include <cstdlib>
@@ -122,7 +114,7 @@ namespace {
         }
         else if( command_parts[0] == "create" ) {
             // This is kind of hacked.
-            string::size_type index = command_line.find_first_of( ' ' );
+            const string::size_type index = command_line.find_first_of( ' ' );
             if( index != string::npos ) {
                 create_task( command_line.substr( index + 1 ), 50 );
             }

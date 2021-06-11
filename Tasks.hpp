@@ -13,19 +13,19 @@ void initialize_tasks( );
 void cleanup_tasks( );
 
 //! Add the specified number of minutes to the indicated task.
-void add_minutes( int task_number, int additional_minutes );
+void add_minutes( int task_number, int additional_minutes ) noexcept;
 
 //! Change the daily allocation of the indicated task to the new amount of minutes.
-void change_daily( int task_number, int new_daily );
+void change_daily( int task_number, int new_daily ) noexcept;
 
 //! Change priority of the indicated task to the new priority level.
-void change_priority( int task_number, int new_priority );
+void change_priority( int task_number, int new_priority ) noexcept;
 
 //! Create a task with the given description and priority. Other attributes are default.
 void create_task( const std::string &new_description, int initial_priority );
 
 //! Delete a task given it's index in the task list.
-void delete_task( int task_number );
+void delete_task( int task_number ) noexcept;
 
 //! Rename the indicated task using the new description text.
 void rename( int task_number, const std::string &new_description );
@@ -34,16 +34,16 @@ void rename( int task_number, const std::string &new_description );
 void save_tasks( );
 
 //! Start working on the indicated task.
-void start_task( int task_number );
+void start_task( int task_number ) noexcept;
 
 //! Stop working on all active tasks.
-void stop_tasks( );
+void stop_tasks( ) noexcept;
 
 //! Remove one day's worth of daily allocations.
-void undo_daily( );
+void undo_daily( ) noexcept;
 
 //! Zero accumulated times for all tasks. This also stops any active tasks.
-void zero_tasks( );
+void zero_tasks( ) noexcept;
 
 //! Displays all the tasks.
 void display_tasks( );
