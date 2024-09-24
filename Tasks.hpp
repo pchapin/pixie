@@ -1,6 +1,6 @@
 /*! \file    tasks.hpp
  *  \brief   Task manipulation.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #ifndef TASKS_HPP

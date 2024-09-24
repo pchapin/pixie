@@ -1,6 +1,6 @@
 /*! \file    task_window.cpp
  *  \brief   Task manipulation.
- *  \author  Peter C. Chapin <pchapin@vtc.edu>
+ *  \author  Peter Chapin <spicacality@kelseymountain.org>
  */
 
 #include <algorithm>

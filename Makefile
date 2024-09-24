@@ -3,14 +3,14 @@
 #
 
 CXX=g++
-CXXFLAGS=-std=c++11 -c -O -I../Spica/Cpp
+CXXFLAGS=-std=c++20 -c -O -I../SpicaCpp
 LINK=g++
 LINKFLAGS=
 SOURCES=main.cpp   \
 	Tasks.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=pixie
-LIBSPICA=../Spica/Cpp/libSpicaCpp.a
+LIBSPICA=../SpicaCpp/libSpicaCpp.a
 
 %.o:	%.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
@@ -21,9 +21,9 @@ $(EXECUTABLE):	$(OBJECTS)
 # File Dependencies
 ###################
 
-main.o:		main.cpp Tasks.hpp ../Spica/Cpp/Date.hpp
+main.o:		main.cpp Tasks.hpp ../SpicaCpp/Date.hpp
 
-Tasks.o:	Tasks.cpp Tasks.hpp ../Spica/Cpp/Date.hpp 
+Tasks.o:	Tasks.cpp Tasks.hpp ../SpicaCpp/Date.hpp 
 
 # Additional Rules
 ##################
